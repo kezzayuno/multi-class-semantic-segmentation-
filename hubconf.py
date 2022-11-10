@@ -1,12 +1,15 @@
+from pathlib import Path
+
 import torch
 from unet import UNet as _UNet
 
-def unet_carvana(pretrained=False, scale=0.5):
+def unet_carvana(pretrained=False, scale=0.5, **kwargs):
     """
     UNet model trained on the Carvana dataset ( https://www.kaggle.com/c/carvana-image-masking-challenge/data ).
     Set the scale to 0.5 (50%) when predicting.
     """
-    net = _UNet(n_channels=3, n_classes=2, bilinear=False)
+    # kwargs override defaults
+    net = _UNet(**{**dict(n_channels=3, n_classes=2, bilinear=False), **kwargs})
     if pretrained:
         if scale == 0.5:
             checkpoint = 'https://github.com/milesial/Pytorch-UNet/releases/download/v3.0/unet_carvana_scale0.5_epoch2.pth'
@@ -21,7 +24,7 @@ def unet_carvana(pretrained=False, scale=0.5):
 
 def custom(checkpoint: Path = None, **kwargs):
     """
-    Creating a custom Unet model from training 
+    Create custom model from pretrained UNet 
     """
     net = _UNet(**{**dict(n_channels=3, n_classes=2, bilinear=False), **kwargs})
     if checkpoint is not None:
