@@ -19,7 +19,7 @@ def unet_carvana(pretrained=False, scale=0.5):
 
     return net
 
-def custom(checkpoint: Path=None, **kwargs):
+def custom(checkpoint: Path = None, **kwargs):
     """
     Creating a custom Unet model from training 
     """
